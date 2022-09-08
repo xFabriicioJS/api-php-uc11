@@ -13,19 +13,17 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header('Content-Type: application/json; charset=utf-8');
 
 // Dados do servidor local
-$banco =  'controledb';
-$host =  'localhost'; //127.0.0.1
+$banco = 'controledb';
+$host = 'localhost'; //127.0.0.1
 $usuario = 'root';
 $senha = '';
 
 try{
-
-    $pdo = new PDO("mysql:dbname-$banco;
-    host=$host;
-    ", "$usuario", "$senha = ''");
+    $pdo = new PDO('mysql:host=localhost;dbname=controledb', $usuario, $senha);
 
 }catch(Exception $e){
-    echo 'Erro ao conectar com ';
+    echo "Deu ruim claudia";
+    
 }
 
 
