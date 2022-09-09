@@ -33,3 +33,19 @@ ESTRUTURA JSON para listar por nome ou por usuários os Usuários via API PHP (a
     "requisicao":"excluir",
     "id":3
 }
+
+
+{
+    "requisicao": "add",
+    "nome": "",
+    "start": 1,
+    "limit": 10
+}
+
+
+{
+    "requisicao": "listar",
+    "nome": "Aniversario",
+    "data": "09/09/2022 08:48",
+    "capacidade": 10
+}
