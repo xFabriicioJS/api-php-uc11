@@ -118,8 +118,8 @@ if($postjson['requisicao'] == 'add'){
             );
         }
     
-        if($query){
-            $result = json_encode(array('success' => true, 'msg'=>"deu tudo certo com a exclusão"));
+        if(count($res) > 0){
+            $result = json_encode(array('success' => true, 'result' => $dados));
         }else{
             $result = json_encode(array('success' => false, 'msg'=>"Falha a efetuar o login" )); 
         }

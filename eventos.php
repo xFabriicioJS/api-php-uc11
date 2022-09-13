@@ -9,7 +9,7 @@ $postjson = json_decode(file_get_contents('php://input', true), true);
 
 if($postjson['requisicao'] == 'add'){
 
-    $query = $pdo->prepare("insert into eventos set nome = :nome, data = :data, capacidade=:capacidade,  ativo = 1");
+    $query = $pdo->prepare("insert into eventos set nome = :nome, data = :data, capacidade=:capacidade,  ativo = 1, usuarios_id = :usuarios_id");
 
 
     $dataAntiga = strtotime($postjson['data']);
@@ -19,6 +19,7 @@ if($postjson['requisicao'] == 'add'){
     $query->bindValue(":nome", $postjson['nome']);
     $query->bindValue(":data", $dataFormatadaParaSQL);
     $query->bindValue(":capacidade", $postjson['capacidade']);
+    $query->bindValue(":usuarios_id", $postjson['usuarios_id']);
     $query->execute();
 
 
@@ -56,7 +57,8 @@ for($i = 0; $i < count($res); $i++) {
         'nome'=>$res[$i]['nome'],
         'data'=>$data->format('d-m-Y H:i:s'),
         'capacidade'=>$res[$i]['capacidade'],
-        'ativo'=>$res[$i]['ativo']
+        'ativo'=>$res[$i]['ativo'],
+        'usuarios_id'=>$res[$i]['usuarios_id']
     );
 }
 if(count($res)){
