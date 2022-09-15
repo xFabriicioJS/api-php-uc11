@@ -35,7 +35,7 @@ if($postjson['requisicao'] == 'add'){
 
     else if($postjson['requisicao']=='listar'){
         if($postjson['nome'] == ''){
-            $query = $pdo->query("SELECT * FROM usuario order BY id desc limit $postjson[start], $postjson[limit]");
+            $query = $pdo->query("SELECT * FROM usuarios order BY id desc limit $postjson[start], $postjson[limit]");
         } else{
             $busca = '%'.$postjson['nome'].'%';
             $query = $pdo->query("SELECT * FROM usuarios WHERE nome LIKE '$busca' or usuario LIKE '$busca' order BY id desc limit $postjson[start], $postjson[limit]");
@@ -59,35 +59,29 @@ if($postjson['requisicao'] == 'add'){
     if(count($res)){
         $result = json_encode(array('success'=>true, 'result'=>$dados));
     }else{
-        $result = json_encode(array('success'=>true, 'result'=>'0'));
+        $result = json_encode(array('success'=>false, 'result'=>'0'));
     }
 
     echo ($result);
 
     }
 
-    else if($postjson['requisicao'] == 'editar'){
-        $query = $pdo->query("UPDATE usuarios SET nome=:nome,
-        usuario=:usuario, senha=:senha, senha_original =:senha_original, nivel=:nivel WHERE id = :id
-        ");
-
+    else if($postjson['requisicao']=='editar'){
+        $query = $pdo->prepare("UPDATE usuarios SET nome=:nome, usuario=:usuario, senha= :senha, senha_original = :senha_original, nivel=:nivel WHERE id = :id");
         $query->bindValue(":nome",$postjson['nome']);
-        $query->bindValue(":usuario", $postjson['usuario']);
-        $query->bindValue(":senha", md5($postjson['senha']));
-        $query->bindValue(":senha_original", $postjson['senha_original']);
+        $query->bindValue(":usuario",$postjson['usuario']);
+        $query->bindValue(":senha",md5($postjson['senha']));
+        $query->bindValue(":senha_original",$postjson['senha']);
         $query->bindValue(":nivel",$postjson['nivel']);
         $query->bindValue(":id",$postjson['id']);
-
         $query->execute();
-        if($query){
-            $result = json_encode(array('success' => true, 'msg'=>"deu tudo certo com a alteração"));
+        if ($query){
+            $result = json_encode(array('success'=>true, 'msg'=>"Deu tudo certo com alteração!"));
         }else{
-            $result = json_encode(array('success' => false, 'msg'=>"Dados incorretos" )); 
+            $result = json_encode(array('success'=>false,'msg'=>"Dados incorretos! Falha ao atualizar o usuário! (WRH014587)"));
         }
-
         echo $result;
-
-    } //final da requisição editar
+    }
 
     else if($postjson['requisicao'] == 'excluir'){
         $query = $pdo->query("UPDATE usuarios set ativo = 0 WHERE id = $postjson[id]");
