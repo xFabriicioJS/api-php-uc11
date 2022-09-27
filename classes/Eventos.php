@@ -55,6 +55,7 @@
             $this->ativo = $_ativo;
             $this->usuarios_id = $_usuarios_id;
         }
+        
 
 
         //Setando os dados
@@ -68,6 +69,19 @@
         }
 
 
+        public function ativarEvento(){
+            $sql = new Sql();
+            $res = $sql->querySql("UPDATE eventos SET ativo = 1 WHERE id = :ID", array(
+                ":ID"=>$this->getId()
+            ));
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
         // métodos para buscar por id
         public function getEventoById($_id){
             $sql = new Sql();
@@ -80,22 +94,31 @@
         }
 
 
-        public function update($_nome, $_data, $_capacidade){
+        public function update() : bool {
             $sql = new Sql();
             
-            $sql->query("UPDATE eventos SET nome = :NOME, data = :DATA, capacidade = :CAPACIDADE WHERE id = :ID", array(
-                ":NOME"=>$_nome,
-                ":DATA"=>$_data,
-                ":CAPACIDADE"=>$_capacidade,
-                ":ID"=>$this->getId()
+            $res = $sql->querySql("update eventos SET nome=:nome, dataEvento = :dataEvento, capacidade=:capacidade WHERE id = :id", array(
+                ":nome"=>$this->getNome(),
+                ":dataEvento"=>$this->getData(),
+                ":capacidade"=>$this->getCapacidade(),
+                ":id"=>$this->getId()
             ));
+
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
         }
 
         //iremos precisar instanciar um evento para poder utilizar esse método
         public function deleteEvento(){
             $sql = new Sql();
 
-            $sql->query("DELETE FROM eventos WHERE id = :id", array(":id"=>$this->getId()));
+            $sql->querySql("DELETE FROM eventos WHERE id = :id", array(":id"=>$this->getId()));
+
+
         }
 
 
@@ -103,17 +126,21 @@
         public function insert(){
             $sql = new Sql();
 
-            $result = $sql->select("CALL sp_eventos_insert(:NOME, :DATA, :CAPACIDADE, :ATIVO, :USUARIOS_ID)", array(
+            $res = $sql->select("CALL sp_eventos_insert(:NOME, :DATA, :CAPACIDADE,:ATIVO, :USUARIOS_ID)", array(
                 ":NOME"=>$this->getNome(),
                 ":DATA"=>$this->getData(),
                 ":CAPACIDADE"=>$this->getCapacidade(),
                 ":ATIVO"=>$this->getAtivo(),
                 ":USUARIOS_ID"=>$this->getUsuarios_id()
             ));
-        
-            if(count($result) > 0){
-                $this->setDados($result[0]);
+            if(count($res)>0){
+                $this->setId($res[0]['id']);   
             }
+            return $this->getId();
+          
+      
+
+            
         }
 
 

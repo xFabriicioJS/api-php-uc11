@@ -13,25 +13,19 @@ require('config.php');
 $postjson = json_decode(file_get_contents('php://input', true), true);
 
 if($postjson['requisicao'] == 'add'){
-    $query = $pdo->prepare("insert into usuarios set nome = :nome, usuario = :usuario, senha=:senha, senha_original=:senha_original, nivel=:nivel, ativo = 1");
+    $user = new Usuario($postjson['nome'], $postjson['usuario'], $postjson['senha'], $postjson['nivel'],null,$postjson['avatar']);
 
-    $query->bindValue(":nome", $postjson['nome']);
-    $query->bindValue(":usuario", $postjson['usuario']);
-    $query->bindValue(":senha", md5($postjson['senha']));
-    $query->bindValue(":senha_original", $postjson['senha']);
-    $query->bindValue(":nivel", $postjson['nivel']);
-    $query->execute();
 
-    $id = $pdo->lastInsertId();
+    $id = $user->insert();
 
-    if($query){
-        $result =  json_encode(array('success' => true, 'id' => $id));
+    if(isset($id)){
+        $result = json_encode(array('success' => true, 'id' => $id));
     }else{
-        $result = json_encode(array('success' => false, 'msg'=> 'Falha ao inserir o usuário'));
+        $result = json_encode(array('success' => false, 'msg' => "Ocorreu uma falha ao inserir!"));
+        echo $id;
     }
 
     echo $result;
-
 }
 
 

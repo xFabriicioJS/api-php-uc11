@@ -44,7 +44,7 @@ ESTRUTURA JSON para listar por nome ou por usuários os Usuários via API PHP (a
 
 
 {
-    "requisicao": "listar",
+    "requisicao": "add",
     "nome": "Aniversario",
     "data": "09/09/2022 08:48",
     "capacidade": 10

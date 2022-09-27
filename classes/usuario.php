@@ -87,17 +87,18 @@ class Usuario{
         $sql = new Sql();
 
         //criando a procedure
-        $result = $sql->select("CALL sp_user_insert(:NOME, :USUARIO, :SENHA, :NIVEL, :ATIVO, :AVATAR)", array(
+        $res = $sql->select("CALL sp_user_insert(:NOME, :USUARIO, :SENHA, :NIVEL, :AVATAR)", array(
             ":NOME" => $this->getNome(),
             ":USUARIO" => $this->getUsuario(),
-            ":SENHA" => md5($this->getSenha()),
+            ":SENHA" => $this->getSenha(),
             ":NIVEL" => $this->getNivel(),
-            ":ATIVO" => $this->getAtivo(),
             ":AVATAR" => $this->getAvatar()
         ));
-        if(count($result) > 0){
-            $this->setData($result[0]);
+        if(count($res)>0){
+            $this->setId($res[0]['id']);   
         }
+
+        return $this->getId();
 
     }
 

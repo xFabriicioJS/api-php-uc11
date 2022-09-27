@@ -37,7 +37,9 @@ if($postjson['requisicao'] == 'add'){
 }
 else if($postjson['requisicao']=='listar'){
     if($postjson['nome'] == ''){
-        $query = $pdo->query("SELECT * FROM eventos order BY id desc limit $postjson[start], $postjson[limit]");
+        
+
+
     } else{
         $busca = '%'.$postjson['nome'].'%';
         $query = $pdo->query("SELECT * FROM eventos WHERE nome LIKE '$busca' or evento LIKE '$busca' order BY id desc limit $postjson[start], $postjson[limit]");
