@@ -97,9 +97,9 @@
         public function update() : bool {
             $sql = new Sql();
             
-            $res = $sql->querySql("update eventos SET nome=:nome, dataEvento = :dataEvento, capacidade=:capacidade WHERE id = :id", array(
+            $res = $sql->querySql("update eventos SET nome=:nome, data = :data, capacidade=:capacidade WHERE id = :id", array(
                 ":nome"=>$this->getNome(),
-                ":dataEvento"=>$this->getData(),
+                ":data"=>$this->getData(),
                 ":capacidade"=>$this->getCapacidade(),
                 ":id"=>$this->getId()
             ));

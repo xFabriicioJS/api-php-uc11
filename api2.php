@@ -12,8 +12,24 @@ require('config.php');
 
 $postjson = json_decode(file_get_contents('php://input', true), true);
 
+
+
+
+
 if($postjson['requisicao'] == 'add'){
+    
+    //lógica para pegar pegar a imagem na requisição
+    if($postjson['avatar'] !== ''){
+        $avatar_name = $_FILES["avatar"]["name"];
+        $avatar_tmp_name = $_FILES["avatar"]["tmp_name"];
+    
+        $pasta_img = "./images/". $avatar_name;
+        move_uploaded_file($avatar_tmp_name, $pasta_img);    
+        }
+    
+    
     $user = new Usuario($postjson['nome'], $postjson['usuario'], $postjson['senha'], $postjson['nivel'],null,$postjson['avatar']);
+
 
 
     $id = $user->insert();
@@ -26,6 +42,17 @@ if($postjson['requisicao'] == 'add'){
     }
 
     echo $result;
+}
+
+
+else if($postjson['requisicao'] == 'addImagem'){
+    if($_FILES['avatar']){
+        $avatar_name = $_FILES["avatar"]["name"];
+        $avatar_tmp_name = $_FILES["avatar"]["tmp_name"];
+    
+        $pasta_img = "./images/". $avatar_name;
+        move_uploaded_file($avatar_tmp_name, $pasta_img);    
+        }
 }
 
 
