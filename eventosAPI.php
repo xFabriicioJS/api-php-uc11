@@ -68,7 +68,7 @@ echo ($result);
 
 else if($postjson['requisicao'] == 'editar'){
     
-    $dataAntiga = strtotime($postjson['dataEvento']);
+    $dataAntiga = strtotime($postjson['data']);
 
     $dataFormatadaParaSQL = date('Y-m-d H-i-s', $dataAntiga);
 
