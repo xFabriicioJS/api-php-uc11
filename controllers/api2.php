@@ -2,7 +2,7 @@
 //Api - aplicação para recursos de app mobile
 
 //acessando o nosso arquivo de confikguração para consumo das classes que criamos
-require('config.php');    
+require('../config.php');    
 
 
 
