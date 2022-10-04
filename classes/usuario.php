@@ -86,6 +86,8 @@ class Usuario{
     public function insert(){
         $sql = new Sql();
 
+       
+
         //criando a procedure
         $res = $sql->select("CALL sp_user_insert(:NOME, :USUARIO, :SENHA, :NIVEL, :AVATAR)", array(
             ":NOME" => $this->getNome(),
@@ -97,6 +99,7 @@ class Usuario{
         if(count($res)>0){
             $this->setId($res[0]['id']);   
         }
+       
 
         return $this->getId();
 
